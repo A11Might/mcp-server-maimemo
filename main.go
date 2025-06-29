@@ -9,17 +9,12 @@ import (
 
 func main() {
 	// Create a server with a single tool.
-	server := mcp.NewServer("greeter", "v1.0.0", nil)
-	server.AddTools(
-		SayHiTool(),
-		ListNotepadsTool(),
-		CreateNotepadTool(),
-		GetNotepadTool(),
-		UpdateNotepadTool(),
-		DeleteNotepadTool(),
-	)
+	mms, err := NewMaimemoServer()
+	if err != nil {
+		log.Fatalf("Failed to create server: %v", err)
+	}
 	// Run the server over stdin/stdout, until the client disconnects
-	if err := server.Run(context.Background(), mcp.NewStdioTransport()); err != nil {
-		log.Fatal(err)
+	if err := mms.Run(context.Background(), mcp.NewStdioTransport()); err != nil {
+		log.Fatalf("Server error: %v", err)
 	}
 }

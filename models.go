@@ -9,8 +9,8 @@ type Response[T any] struct {
 }
 
 type Error struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Code    string `json:"code"`
+	Message string `json:"msg"`
 	Info    string `json:"info"`
 }
 

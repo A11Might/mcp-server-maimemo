@@ -33,4 +33,5 @@ go.work.sum
 # .vscode/
 
 # test
+maimemo_test.go
 maimemo.http

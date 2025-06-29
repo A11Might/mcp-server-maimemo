@@ -17,6 +17,17 @@ func FormateNotepadContent(chapterName string, words []string) string {
 	return content
 }
 
+func ProcessMaimemoResponeError[T any](err error, respone Response[T]) error {
+	if err != nil {
+		return err
+	}
+	if !respone.Success {
+		return fmt.Errorf("请求墨墨开放 API 失败, error: %v", respone.Errors)
+	}
+
+	return nil
+}
+
 func OriginToTextContent(origin interface{}) (*mcp.CallToolResultFor[any], error) {
 	text, ok := origin.(string)
 	if ok {
