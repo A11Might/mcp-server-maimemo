@@ -14,20 +14,6 @@ type Error struct {
 	Info    string `json:"info"`
 }
 
-// BriefNotepad 简要云词本数据结构
-// 对应墨墨开放 API 文档：https://open.maimemo.com/#/schemas/BriefNotepad
-type BriefNotepad struct {
-	ID        string    `json:"id"`                                 // 词本唯一标识
-	Type      Type      `json:"type"`                               // 词本类型，参见 NotepadType
-	Creator   int       `json:"creator"`                            // 创建者用户ID
-	Status    Status    `json:"status"`                             // 词本状态，参见 NotepadStatus
-	Title     string    `json:"title"`                              // 词本标题
-	Brief     string    `json:"brief"`                              // 词本简介
-	Tags      []string  `json:"tags"`                               // 关联标签列表
-	CreatedAt time.Time `json:"created_time" time_format:"iso8601"` // 创建时间（ISO8601格式）
-	UpdatedAt time.Time `json:"updated_time" time_format:"iso8601"` // 更新时间（ISO8601格式）
-}
-
 /*
 示例数据结构：
 {
@@ -50,7 +36,7 @@ type Notepad struct {
 	Type      Type         `json:"type"`                               // 词本类型，参见 NotepadType
 	Creator   int          `json:"creator"`                            // 创建者 ID
 	Status    Status       `json:"status"`                             // 词本状态，参见 NotepadStatus
-	Content   string       `json:"content"`                            // 词本内容（Markdown 格式）
+	Content   string       `json:"content,omitempty"`                  // 词本内容（Markdown 格式）
 	Title     string       `json:"title"`                              // 词本标题
 	Brief     string       `json:"brief"`                              // 词本简介
 	Tags      []string     `json:"tags"`                               // 标签列表

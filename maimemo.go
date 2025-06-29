@@ -42,14 +42,18 @@ func (client *MaimemoClient) Close() error {
 // 云词本
 //
 // 查询云词本
-func (c *MaimemoClient) ListNotepads(ids []string, limit, offset int) ([]BriefNotepad, error) {
-	var resp Response[struct{ Notepads []BriefNotepad }]
+func (c *MaimemoClient) ListNotepads(ids []string, limit, offset int) ([]*Notepad, error) {
+	queryParams := map[string]string{
+		"limit":  fmt.Sprintf("%d", limit),
+		"offset": fmt.Sprintf("%d", offset),
+	}
+	if len(ids) > 0 {
+		queryParams["ids"] = strings.Join(ids, ",")
+	}
+
+	var resp Response[struct{ Notepads []*Notepad }]
 	_, err := c.cli.R().
-		SetQueryParams(map[string]string{
-			"ids":    strings.Join(ids, ","),
-			"limit":  fmt.Sprintf("%d", limit),
-			"offset": fmt.Sprintf("%d", offset),
-		}).
+		SetQueryParams(queryParams).
 		SetResult(&resp).
 		Get("/notepads")
 
@@ -60,16 +64,8 @@ func (c *MaimemoClient) ListNotepads(ids []string, limit, offset int) ([]BriefNo
 	return resp.Data.Notepads, nil
 }
 
-func FormatNotepadContent(chapterName string, words []string) string {
-	content := strings.Join(words, ",")
-	if chapterName != "" {
-		content = fmt.Sprintf("# %s\n%s", chapterName, content)
-	}
-	return content
-}
-
 // 创建云词本
-func (c *MaimemoClient) CreateNotepad(status, content, title, brief string, tags []string) error {
+func (c *MaimemoClient) CreateNotepad(status, content, title, brief string, tags []string) (*Notepad, error) {
 	var resp Response[struct{ Notepad *Notepad }]
 	_, err := c.cli.R().
 		SetBody(map[string]any{
@@ -85,10 +81,10 @@ func (c *MaimemoClient) CreateNotepad(status, content, title, brief string, tags
 		Post("/notepads")
 
 	if err != nil || !resp.Success {
-		return fmt.Errorf("创建云词本失败, error: %w", err)
+		return nil, fmt.Errorf("创建云词本失败, error: %w", err)
 	}
 
-	return nil
+	return resp.Data.Notepad, nil
 }
 
 // 获取云词本
