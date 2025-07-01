@@ -35,12 +35,12 @@ func (handler *MaimemoHandler) ListNotepad(ctx context.Context, cc *mcp.ServerSe
 }
 
 type CreateNotepadParams struct {
-	Status      string   `json:"status"`
-	ChapterName string   `json:"chapter_name"`
-	Words       []string `json:"words"`
-	Title       string   `json:"title"`
-	Brief       string   `json:"brief"`
-	Tags        []string `json:"tags"`
+	Status      NotepadStatus `json:"status"`
+	ChapterName string        `json:"chapter_name"`
+	Words       []string      `json:"words"`
+	Title       string        `json:"title"`
+	Brief       string        `json:"brief"`
+	Tags        []NotepadTag  `json:"tags"`
 }
 
 // 创建云词本
@@ -69,13 +69,13 @@ func (handler *MaimemoHandler) GetNotepad(ctx context.Context, cc *mcp.ServerSes
 }
 
 type UpdateNotepadParams struct {
-	NotepadId   string   `json:"notepad_id"`
-	Status      string   `json:"status"`
-	ChapterName string   `json:"chapter_name"`
-	Words       []string `json:"words"`
-	Title       string   `json:"title"`
-	Brief       string   `json:"brief"`
-	Tags        []string `json:"tags"`
+	NotepadId   string        `json:"notepad_id"`
+	Status      NotepadStatus `json:"status"`
+	ChapterName string        `json:"chapter_name"`
+	Words       []string      `json:"words"`
+	Title       string        `json:"title"`
+	Brief       string        `json:"brief"`
+	Tags        []NotepadTag  `json:"tags"`
 }
 
 // 更新云词本
