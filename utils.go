@@ -28,7 +28,7 @@ func ProcessMaimemoResponeError[T any](err error, respone Response[T]) error {
 	return nil
 }
 
-func OriginToTextContent(origin interface{}) (*mcp.CallToolResultFor[any], error) {
+func OriginToTextContent(origin any) (*mcp.CallToolResultFor[any], error) {
 	text, ok := origin.(string)
 	if ok {
 		return &mcp.CallToolResultFor[any]{

@@ -19,6 +19,143 @@ func NewMaimemoServer() (*mcp.Server, error) {
 	s := mcp.NewServer("maimemo", "v1.0.0", nil)
 
 	s.AddTools(
+		// Interpretations
+		mcp.NewServerTool(
+			"list_interpretations",
+			"获取释义",
+			h.ListInterpretations,
+			mcp.Input(
+				mcp.Property("voc_id",
+					mcp.Required(true),
+					mcp.Description("单词 id"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"create_interpretation",
+			"创建释义",
+			h.CreateInterpretation,
+			mcp.Input(
+				mcp.Property("voc_id",
+					mcp.Required(true),
+					mcp.Description("单词 id"),
+				),
+				mcp.Property("interpretation",
+					mcp.Required(true),
+					mcp.Description("释义内容"),
+				),
+				mcp.Property("tags",
+					mcp.Required(true),
+					mcp.Description("标签"),
+				),
+				mcp.Property("status",
+					mcp.Required(true),
+					mcp.Enum("PROFICIENT", "REVIEWING", "MASTERED"),
+					mcp.Description("状态"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"update_interpretation",
+			"更新释义",
+			h.UpdateInterpretation,
+			mcp.Input(
+				mcp.Property("interpretation_id",
+					mcp.Required(true),
+					mcp.Description("释义 id"),
+				),
+				mcp.Property("interpretation",
+					mcp.Required(true),
+					mcp.Description("释义内容"),
+				),
+				mcp.Property("tags",
+					mcp.Required(true),
+					mcp.Description("标签"),
+				),
+				mcp.Property("status",
+					mcp.Required(true),
+					mcp.Enum("PROFICIENT", "REVIEWING", "MASTERED"),
+					mcp.Description("状态"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"delete_interpretation",
+			"删除释义",
+			h.DeleteInterpretation,
+			mcp.Input(
+				mcp.Property("interpretation_id",
+					mcp.Required(true),
+					mcp.Description("释义 id"),
+				),
+			),
+		),
+
+		// Notes
+		mcp.NewServerTool(
+			"list_notes",
+			"获取助记",
+			h.ListNotes,
+			mcp.Input(
+				mcp.Property("voc_id",
+					mcp.Required(true),
+					mcp.Description("单词 id"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"create_note",
+			"创建助记",
+			h.CreateNote,
+			mcp.Input(
+				mcp.Property("voc_id",
+					mcp.Required(true),
+					mcp.Description("单词 id"),
+				),
+				mcp.Property("note_type",
+					mcp.Required(true),
+					mcp.Enum("TEXT", "IMAGE", "SOUND"),
+					mcp.Description("助记类型"),
+				),
+				mcp.Property("note",
+					mcp.Required(true),
+					mcp.Description("助记内容"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"update_note",
+			"更新助记",
+			h.UpdateNote,
+			mcp.Input(
+				mcp.Property("note_id",
+					mcp.Required(true),
+					mcp.Description("助记 id"),
+				),
+				mcp.Property("note_type",
+					mcp.Required(true),
+					mcp.Enum("TEXT", "IMAGE", "SOUND"),
+					mcp.Description("助记类型"),
+				),
+				mcp.Property("note",
+					mcp.Required(true),
+					mcp.Description("助记内容"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"delete_note",
+			"删除助记",
+			h.DeleteNote,
+			mcp.Input(
+				mcp.Property("note_id",
+					mcp.Required(true),
+					mcp.Description("助记 id"),
+				),
+			),
+		),
+
+		// Notepads
 		mcp.NewServerTool(
 			"list_notepads",
 			"查询云词本",
@@ -45,7 +182,6 @@ func NewMaimemoServer() (*mcp.Server, error) {
 				),
 			),
 		),
-
 		mcp.NewServerTool(
 			"create_notepad",
 			"创建云词本",
@@ -77,7 +213,6 @@ func NewMaimemoServer() (*mcp.Server, error) {
 					mcp.Description("标签"),
 				),
 			)),
-
 		mcp.NewServerTool(
 			"get_notepad",
 			"获取云词本",
@@ -88,7 +223,6 @@ func NewMaimemoServer() (*mcp.Server, error) {
 					mcp.Description("云词本 id"),
 				),
 			)),
-
 		mcp.NewServerTool(
 			"update_notepad",
 			"更新云词本",
@@ -124,7 +258,6 @@ func NewMaimemoServer() (*mcp.Server, error) {
 					mcp.Description("标签"),
 				),
 			)),
-
 		mcp.NewServerTool(
 			"delete_notepad",
 			"删除云词本",
@@ -135,6 +268,97 @@ func NewMaimemoServer() (*mcp.Server, error) {
 					mcp.Description("云词本 id"),
 				),
 			)),
+
+		// Phrases
+		mcp.NewServerTool(
+			"list_phrases",
+			"获取例句",
+			h.ListPhrases,
+			mcp.Input(
+				mcp.Property("voc_id",
+					mcp.Required(true),
+					mcp.Description("单词 id"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"create_phrase",
+			"创建例句",
+			h.CreatePhrase,
+			mcp.Input(
+				mcp.Property("voc_id",
+					mcp.Required(true),
+					mcp.Description("单词 id"),
+				),
+				mcp.Property("phrase",
+					mcp.Required(true),
+					mcp.Description("例句内容"),
+				),
+				mcp.Property("interpretation",
+					mcp.Required(true),
+					mcp.Description("例句翻译"),
+				),
+				mcp.Property("tags",
+					mcp.Required(true),
+					mcp.Description("标签"),
+				),
+				mcp.Property("origin",
+					mcp.Required(false),
+					mcp.Description("来源"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"update_phrase",
+			"更新例句",
+			h.UpdatePhrase,
+			mcp.Input(
+				mcp.Property("phrase_id",
+					mcp.Required(true),
+					mcp.Description("例句 id"),
+				),
+				mcp.Property("phrase",
+					mcp.Required(true),
+					mcp.Description("例句内容"),
+				),
+				mcp.Property("interpretation",
+					mcp.Required(true),
+					mcp.Description("例句翻译"),
+				),
+				mcp.Property("tags",
+					mcp.Required(true),
+					mcp.Description("标签"),
+				),
+				mcp.Property("origin",
+					mcp.Required(false),
+					mcp.Description("来源"),
+				),
+			),
+		),
+		mcp.NewServerTool(
+			"delete_phrase",
+			"删除例句",
+			h.DeletePhrase,
+			mcp.Input(
+				mcp.Property("phrase_id",
+					mcp.Required(true),
+					mcp.Description("例句 id"),
+				),
+			),
+		),
+
+		// Vocabularies
+		mcp.NewServerTool(
+			"get_vocabulary",
+			"获取单词",
+			h.GetVocabulary,
+			mcp.Input(
+				mcp.Property("spelling",
+					mcp.Required(true),
+					mcp.Description("单词拼写"),
+				),
+			),
+		),
 	)
 
 	return s, nil
