@@ -10,9 +10,7 @@ type MaimemoHandler struct {
 	maimemoClient *MaimemoClient
 }
 
-func NewMaimemoHanlder(token string) (*MaimemoHandler, error) {
-	client := NewMaiMemoClient(token)
-
+func NewMaimemoHanlder(client *MaimemoClient) (*MaimemoHandler, error) {
 	return &MaimemoHandler{
 		maimemoClient: client,
 	}, nil
