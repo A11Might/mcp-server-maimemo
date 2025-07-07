@@ -8,12 +8,38 @@ Maimemo MCP Server 是一个基于 [墨墨背单词](https://open.maimemo.com) A
 
 ## 🛠️ Tools
 
-### 云词本
-* `list_notepads`: 查询云词本。
-* `create_notepad`: 创建云词本。
-* `get_notepad`: 获取云词本。
-* `update_notepad`: 更新云词本。
-* `delete_notepad`: 删除云词本。
+### 释义 (Interpretations)
+
+* `list_interpretations`: 获取释义
+* `create_interpretation`: 创建释义
+* `update_interpretation`: 更新释义
+* `delete_interpretation`: 删除释义
+
+### 助记 (Notes)
+
+* `list_notes`: 获取助记
+* `create_note`: 创建助记
+* `update_note`: 更新助记
+* `delete_note`: 删除助记
+
+### 云词本 (Notepads)
+
+* `list_notepads`: 查询云词本
+* `create_notepad`: 创建云词本
+* `get_notepad`: 获取云词本
+* `update_notepad`: 更新云词本
+* `delete_notepad`: 删除云词本
+
+### 例句 (Phrases)
+
+* `list_phrases`: 获取例句
+* `create_phrase`: 创建例句
+* `update_phrase`: 更新例句
+* `delete_phrase`: 删除例句
+
+### 单词 (Vocabularies)
+
+* `get_vocabulary`: 查询单词
 
 ## 🖼️ Preview
 
@@ -23,27 +49,23 @@ Maimemo MCP Server 是一个基于 [墨墨背单词](https://open.maimemo.com) A
 
 > 打开墨墨背单词 App，在「我的 > 更多设置 > 实验功能 > 开放 API」申请并复制 Token
 
-1. 克隆项目到本地：
+1. 安装
 
-    ```bash
-    git clone https://github.com/A11Might/mcp-server-maimemo.git
-    cd mcp-server-maimemo
+    使用 go install 安装：
+
+    ```go
+    go install github.com/A11Might/mcp-server-maimemo@latest
     ```
 
-2. 构建服务：
+3. 使用
 
-    ```bash
-    go mod tidy
-    go build -o mcp-server-maimemo
-    ```
-
-3. 配置:
+    将服务集成到支持 MCP 的 APP 中：
 
     ```json
     {
         "mcpServers": {
             "mcp-server-maimemo": {
-                "command": "/path/to/your/hello-server/mcp-server-maimemo",
+                "command": "mcp-server-maimemo",
                 "env": {
                     "MAIMEMO_TOKEN": "your_maimemo_token"
                 }
@@ -51,13 +73,6 @@ Maimemo MCP Server 是一个基于 [墨墨背单词](https://open.maimemo.com) A
         }
     }
     ```
-## ✅ 待办事项
-
-- [ ] 释义
-- [ ] 助记
-- [x] 云词本
-- [ ] 例句
-- [ ] 单词
 
 ## 🤝 贡献
 
